@@ -12,6 +12,10 @@
 	function Props:Remove(Id)
 		Props.Active[Id].Name = "REMOVE"
 	end
+	function Props:Damage(id,dealer,n)
+		Props.Active[id].Hp = Props.Active[id].Hp-n
+		Props.Active[id]:OnDamaged(dealer)
+	end
 	function Props:Update(dt)
 		NewList = {}
 		for i = 1,#Props.Active do
@@ -27,7 +31,7 @@
 			end
 			
 			if not EditMode then
-				Props.Active[i].Update()-- Unique update
+				Props.Active[i]:Update(dt,Props.Active[i])-- Unique update
 			end
 			
 			--Movement
@@ -60,6 +64,8 @@
 								Newx = Props.Active[i].Position.x
 								Newy = Props.Active[i].Position.y
 								Props.Active[i].Moving = false
+								Props.Active[i]:OnTouched(Props.Active[c])
+								Props.Active[c]:OnTouched(Props.Active[i])
 							end
 						end
 					end
@@ -124,7 +130,12 @@
 						Props.Active[i].State = Props.Active[i].PreviousState[1]
 						Props.Active[i].AnimLoop = Props.Active[i].PreviousState[2]
 						Props.Active[i].AnimSpeed = Props.Active[i].PreviousState[3]
+						Props.Active[i].AnimStage = 1
 					end
+				end
+				local _,_,w = Props.Active[i].States[Props.Active[i].State][1]:getViewport()
+				if w ~= Props.Active[i].Width then
+					Props.Active[i].Width = w
 				end
 				Props.Active[i].LastUpdate = 0
 			end
@@ -142,8 +153,8 @@
 		Prop.Spd = PropType[10]
 		Prop.Lum = PropType[11]
 		
-		Prop.Update = PropType[13]
-		Prop.DefaultAction = PropType[12]
+		function Prop:Update(dt,P) PropType[13](dt,P) end
+		function Prop:DefaultAction() PropType[12]() end
 		
 		Prop.Vars = PropType[20]
 		
@@ -181,8 +192,8 @@
 		Prop.i = #Props.Active+1
 		
 		Prop.Event = {}
-		Prop.OnRemove = PropType[14]
-		Prop.OnDeath = PropType[15]
+		function Prop:OnRemove() PropType[14]() end
+		function Prop:OnDeath() PropType[15]() end
 		--[[
 		function()
 			for i = 1,#Props.Active do 
@@ -192,10 +203,11 @@
 				end 
 			end
 		end]]
-		Prop.OnDamaged = PropType[16]
-		Prop.OnTouched = PropType[17]
+		function Prop:OnDamaged(prop) PropType[16](prop) end
+		function Prop:OnTouched(prop) PropType[17](prop) end
 		
 		Prop.CanCollide = PropType[18]
+		Prop.Touched = false
 		Prop.CanMove = PropType[19]
 		
 		return Prop
@@ -249,14 +261,18 @@
 			NewQuad(126,196,23,44,BaseSprite:getWidth(),BaseSprite:getHeight()),
 			NewQuad(151,196,23,44,BaseSprite:getWidth(),BaseSprite:getHeight()),
 			NewQuad(176,196,23,44,BaseSprite:getWidth(),BaseSprite:getHeight())
-		}
+		},
+		{NewQuad(0,241,50,44,BaseSprite:getWidth(),BaseSprite:getHeight())},
+		{NewQuad(50,241,50,44,BaseSprite:getWidth(),BaseSprite:getHeight())},
+		{NewQuad(100,241,50,44,BaseSprite:getWidth(),BaseSprite:getHeight())},
+		{NewQuad(150,241,50,44,BaseSprite:getWidth(),BaseSprite:getHeight())}
 	}
 --1Name,2Hp,3Sprite,4Quads,5Width,6Height,7Yoffset,8Spacex,9Spacey,10Spd,11Lum,12DefaultAction,13UpdateFunction,14OnRemove,15OnDeath,16OnDamage,17OnTouch,18CanCollide,19CanMove,20Extra,21BetweenPixelBug
 	Props.Types.Blank = {"Blank",-1,love.graphics.newImage(love.image.newImageData(1,1)),{{NewQuad(0,0,1,1,1,1)}},1,1,{0,0},0,0,0,0,
 		function() return nil end,
 		function() return nil end,
 		function() return nil end,
-		function(id)
+		function(id,self)
 			for i = 1,#Props.Active do 
 				if Props.Active[i].ID == id then 
 					Props.Active[i].OnRemove()
@@ -271,7 +287,60 @@
 	
 	Props.Types.Player = {"Player",20,BaseSprite,Quad,25,45,{0,0},0.5,0.5,6,0,
 		function() return nil end,
-		function() return nil end,
+		function(dt, self) 
+			if self.Vars.Attacking > 0 then
+				local dx = 0
+				local dy = 0
+				if self.Vars.Attacking == 1 then
+					dy = -1
+				elseif self.Vars.Attacking == 2 then
+					dx = 1
+				elseif self.Vars.Attacking == 3 then
+					dy = 1
+				elseif self.Vars.Attacking == 4 then
+					dx = -1
+				end
+				for i = 1,#Props.Active do
+					if Props.Active[i] ~= self then
+						if Props.Active[i].Position.x+((Props.Active[i].TakesUpx/2)/4) > self.Position.x - 0.35 + 0.3*dx and Props.Active[i].Position.x+((Props.Active[i].TakesUpx/2)/4) < self.Position.x + 0.35 + 0.3*dx then
+							if Props.Active[i].Position.y+((Props.Active[i].TakesUpy/2)/4) > self.Position.y - 0.35 + 0.3*dy and Props.Active[i].Position.y+((Props.Active[i].TakesUpy/2)/4) < self.Position.y + 0.35 + 0.3*dy then
+								local Atd = false
+								for c = 1,#self.Vars.Attacked do
+									if self.Vars.Attacked[c] == i then
+										Atd = true
+									end
+								end
+								if not Atd then
+									Props:Damage(i,self,5)
+									self.Vars.Attacked[#self.Vars.Attacked+1] = i
+								end
+							end
+						end
+					end
+				end
+				if self.State < 9 then
+					if love.keyboard.isDown("w") then
+						self.Moving = true
+						self.Direction = 4
+						self.State = 8
+					elseif love.keyboard.isDown("s") then
+						self.Moving = true
+						self.Direction = 2
+						self.State = 6
+					elseif love.keyboard.isDown("d") then
+						self.Moving = true
+						self.Direction = 1
+						self.State = 5
+					elseif love.keyboard.isDown("a") then
+						self.Moving = true
+						self.Direction = 3
+						self.State = 7
+					end
+					self.Vars.Attacking = 0
+					self.Vars.Attacked = {}
+				end
+			end
+		end,
 		function() return nil end,
 		function(id)
 			for i = 1,#Props.Active do 
@@ -283,7 +352,7 @@
 		end,
 		function(prop) return nil end,
 		function(prop) return nil end,
-		true,true,{},0
+		true,true,{Attackng = 0,Attacked = {}},0
 	}
 	
 	Props.Types.Tree = {"Tree",200,love.graphics.newImage("bin/Terrain/Props/Tree1.png"),

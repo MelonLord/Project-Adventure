@@ -61,6 +61,7 @@ function love.load()
 	Props.Active[#Props.Active].State = 3
 	PlayerID = Props.Active[#Props.Active].ID
 	PlayerMob = Props.Active[#Props.Active]
+	PlayerMob.Vars.Attacking = 0
 	--Props.Active[1].MoveCue = {{10,20},{8,6},{9,9}}
 	--Props.Active[2] = Props:New(Props.Types.Tree,9,9)
 	--Props.Active[2] = Props:New(Props.Types.Torch,9.3,7.2)
@@ -82,32 +83,40 @@ function love.keypressed( key, isrepeat )
 	if EditMode then
 		Edit.keypressed(key,isrepeat)
 	elseif not SceneMode then
-	local dir = 1
-	local move = false
-	if key == "w" then
-		dir = 4
-		move = true
-	elseif key == "s" then
-		dir = 2
-		move = true
-	elseif key == "d" then
-		dir = 1
-		move = true
-	elseif key == "a" then
-		dir = 3
-		move = true
-	elseif key == "e" then
-		Edit.setMode(16,16)
-	elseif key == "q" then
-		local t = {}
-		t[1] = {"t",{{"bob",1,{},"Gummi bears wafer croissant gummies souffle jelly-o. Lollipop fruitcake apple pie ice cream candy topping chupa chups gingerbread. Lollipop gummi bears sweet sesame snaps apple pie ice cream chocolate bar. Gingerbread carrot cake caramels liquorice. Cupcake cheesecake cotton candy. Muffin jujubes sugar plum applicake gummies. "}}}
-		Scene.setMode(t,{})
-	end
-	if move then
-		PlayerMob.Direction = dir
-		PlayerMob.Moving = true
-		PlayerMob.State = 4 + dir
-	end
+		local dir = 1
+		local move = false
+		if key == "w" then
+			dir = 4
+			move = true
+		elseif key == "s" then
+			dir = 2
+			move = true
+		elseif key == "d" then
+			dir = 1
+			move = true
+		elseif key == "a" then
+			dir = 3
+			move = true
+		elseif key == "e" then
+			Edit.setMode(16,16)
+		elseif key == "q" then
+			local t = {}
+			t[1] = {"t",{{"bob",1,{},"Gummi bears wafer croissant gummies souffle jelly-o. Lollipop fruitcake apple pie ice cream candy topping chupa chups gingerbread. Lollipop gummi bears sweet sesame snaps apple pie ice cream chocolate bar. Gingerbread carrot cake caramels liquorice. Cupcake cheesecake cotton candy. Muffin jujubes sugar plum applicake gummies. "}}}
+			Scene.setMode(t,{})
+		end
+		if key == "z" and PlayerMob.State < 9 then
+			PlayerMob.Vars.Attacking = PlayerMob.Direction
+			PlayerMob.State = 8 + PlayerMob.Direction
+			PlayerMob.Width = 50
+			PlayerMob.PreviousState = {PlayerMob.Direction,true,1}
+			PlayerMob.Moving = false
+			PlayerMob.AnimLoop = false
+			PlayerMob.AnimSpeed = 5
+		elseif move and PlayerMob.Vars.Attacking < 1 then
+			PlayerMob.Direction = dir
+			PlayerMob.Moving = true
+			PlayerMob.State = 4 + dir
+		end
 	end
 end
 
@@ -166,10 +175,10 @@ function love.keyreleased( key )
 			stop = false
 		end
 	end
-	if move and stop then
+	if move and stop and PlayerMob.Vars.Attacking < 1 then
 		PlayerMob.Moving = false
 		PlayerMob.State = PlayerMob.Direction
-	elseif move and not stop then
+	elseif move and not stop and PlayerMob.Vars.Attacking < 1 then
 		PlayerMob.Direction = dir
 		PlayerMob.Moving = true
 		PlayerMob.State = 4 + dir
@@ -407,4 +416,5 @@ end
 	love.graphics.setColor(255,255,255,255)]]
 	end
 end
+	
 	
