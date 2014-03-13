@@ -4,6 +4,8 @@
 	Props.Active = {}
 	Props.Types = {}
 	
+	ID = 0
+	
 	OldGrid = {0,0,1}
 	NewGrid = {0,0,1}
 	SideLeaving = 1
@@ -19,7 +21,6 @@
 	function Props:Update(dt)
 		NewList = {}
 		for i = 1,#Props.Active do
-		
 			--Garbage Cleaning
 			----------
 			if Props.Active[i].Hp <= 0 then
@@ -37,7 +38,9 @@
 			--Movement
 			----------
 			
+			
 			if Props.Active[i].Moving == true and Props.Active[i].CanMove == true then
+				m = true
 				local dx = 0
 				local dy = 0
 				if Props.Active[i].Direction == 1 then
@@ -118,6 +121,7 @@
 				Props.Active[i].Position.y = Newy
 			end
 			
+			
 			--Animation
 			----------
 			Props.Active[i].LastUpdate = Props.Active[i].LastUpdate+dt
@@ -140,6 +144,18 @@
 				Props.Active[i].LastUpdate = 0
 			end
 		end
+		if Skip then
+			local m = false
+			if love.keyboard.isDown("w") or love.keyboard.isDown("s") or love.keyboard.isDown("d") or love.keyboard.isDown("a") then
+				m = true
+			end
+			NewList = Level.Props
+			Grid = Level.Grid
+			PlayerMob.Position = PlayerPort
+			PlayerMob.Moving = m
+		end
+		Props.Active = NewList
+		
 	end
 				
 	--New Props
@@ -186,9 +202,9 @@
 		Prop.Moving = false
 		
 		Prop.ID = 1
-		if #Props.Active > 0 then
-			Prop.ID = Props.Active[#Props.Active].ID + 1
-		end
+		ID = ID + 1
+		Prop.ID = ID
+
 		Prop.i = #Props.Active+1
 		
 		Prop.Event = {}
@@ -353,6 +369,72 @@
 		function(prop) return nil end,
 		function(prop) return nil end,
 		true,true,{Attackng = 0,Attacked = {}},0
+	}
+	
+	Props.Types.Jamal = {"Jamal",20,love.graphics.newImage("bin/Sprites/Jamal.png"),
+	{{NewQuad(1,1,24,50,25,49)}},25,50,{0,0},0.5,0.5,4,30,
+		function() 
+			local t = {}
+			t[1] = {"t",{{"Jamal",1,{},"Hi, My name is Jamal"},{"Jamal",1,{},"I'm Blind and it's my birthday."},{"Jamal",1,{},"Isn't that sad?"}}}
+			Scene.setMode(t,{})
+		end,
+		function() return nil end,
+		function() return nil end,
+		function(id,self)
+			for i = 1,#Props.Active do 
+				if Props.Active[i].ID == id then 
+					Props.Active[i].OnRemove()
+					Props:Remove(i) 
+				end 
+			end
+		end,
+		function(prop) return nil end,
+		function(prop) return nil end,
+		true,true,{},0
+	}
+	
+	Props.Types.Town1_Field1 = {"Town1_Field1",200,love.graphics.newImage("bin/Terrain/Props/grassfade2.png"),
+	{{love.graphics.newQuad(0,0,128,48,128,48)}},128,48,{-0.4,0},0.5,1,0,0,
+	function() return nil end,
+		function() return nil end,
+		function() return nil end,
+		function(id)
+			for i = 1,#Props.Active do 
+				if Props.Active[i].ID == id then 
+					Props.Active[i].OnRemove()
+					Props:Remove(i) 
+				end 
+			end
+		end,
+		function(prop) return nil end,
+		function(prop)
+			if prop == PlayerMob then
+				ChangeLevel(field1,1.5,12)
+			end
+		end,
+		true,false,{},32
+	}
+	
+	Props.Types.Field1_Town1 = {"Field1_Town1",200,love.graphics.newImage("bin/Terrain/Props/grassfade4.png"),
+	{{love.graphics.newQuad(0,0,128,48,128,48)}},128,48,{0.4,0},0.5,1,0,0,
+	function() return nil end,
+		function() return nil end,
+		function() return nil end,
+		function(id)
+			for i = 1,#Props.Active do 
+				if Props.Active[i].ID == id then 
+					Props.Active[i].OnRemove()
+					Props:Remove(i) 
+				end 
+			end
+		end,
+		function(prop) return nil end,
+		function(prop)
+			if prop == PlayerMob then
+				ChangeLevel(town1,10,12)
+			end
+		end,
+		true,false,{},32
 	}
 	
 	Props.Types.Tree = {"Tree",200,love.graphics.newImage("bin/Terrain/Props/Tree1.png"),

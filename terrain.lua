@@ -1,5 +1,6 @@
 	Levels = {}
 	require "levels/town1"
+	require "levels/field1"
 	--Resources
 	----------
 	-- 1=Raised,2=SlantTo0,3=SlantFrom0,4=Lowered
@@ -31,12 +32,20 @@
 	GridSizey = 16
 	GridCenter = {Tileset[1][1]:getWidth()*GridSizex/2,Tileset[1][1]:getHeight()*GridSizey/2}
 	Grid = town1.Grid
-	--[[for x = 1,GridSizex do
-		Grid[x] = {}
-		for y = 1,GridSizey do
-			Grid[x][y] = {1,0,1,false} --{type,hieght,angle,propsOn}
+	
+	
+	--Level Change
+	-----------
+	function ChangeLevel(l,Px,Py) --Enum Enterfrom "y+","y-","x+","x-","n"
+		local NewProps = l.Props
+		for i = 2,#Props.Active do
+			if Props.Active[i] ~= PlayerMob then
+				Props.Active[i].Name = "REMOVE"
+			end
 		end
+		NewProps[#NewProps+1] = PlayerMob
+		PlayerPort.x = Px
+		PlayerPort.y = Py
+		Level = l
+		Skip = true
 	end
-	Grid[10][13] = {1,1,1}
-	Grid[10][16] = {1,2,13}
-	Grid[1][1] = {1,5,1}]]

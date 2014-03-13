@@ -4,6 +4,10 @@ require "gui"
 require "edit"
 require "scenes"
 
+require "levels/town1"
+require "levels/field1"
+
+
 function love.load()
 	Load = 0
 	Loaded = false
@@ -11,12 +15,16 @@ function love.load()
 	H = 700
 	
 	TimeOfDay = 8
+	Skip = false
+	
+	Level = {Props = {}, Grid = {}}
+	PlayerPort = {x = 1,y = 1}
 	
 	--Base
 	----------
 	love.window.setMode(W,H,{fsaa = 0})
 	function math.round(n, deci) deci = 10 ^(deci or 0) return math.floor(n*deci+ 0.5)/deci end
-	function math.dist(x1,y1, x2,y2) return ((x2-x1)^ 2+(y2-y1)^ 2)^ 0.5 end
+	function math.dist(x,y,z,w) return ((z-x)^ 2+(w-y)^ 2)^ 0.5 end
 	SFont = love.graphics.newFont("bin/Sb.ttf",16)
 	love.graphics.setFont(SFont)
 	--Camera
@@ -62,6 +70,7 @@ function love.load()
 	PlayerID = Props.Active[#Props.Active].ID
 	PlayerMob = Props.Active[#Props.Active]
 	PlayerMob.Vars.Attacking = 0
+	
 	--Props.Active[1].MoveCue = {{10,20},{8,6},{9,9}}
 	--Props.Active[2] = Props:New(Props.Types.Tree,9,9)
 	--Props.Active[2] = Props:New(Props.Types.Torch,9.3,7.2)
@@ -103,6 +112,30 @@ function love.keypressed( key, isrepeat )
 			local t = {}
 			t[1] = {"t",{{"bob",1,{},"Gummi bears wafer croissant gummies souffle jelly-o. Lollipop fruitcake apple pie ice cream candy topping chupa chups gingerbread. Lollipop gummi bears sweet sesame snaps apple pie ice cream chocolate bar. Gingerbread carrot cake caramels liquorice. Cupcake cheesecake cotton candy. Muffin jujubes sugar plum applicake gummies. "}}}
 			Scene.setMode(t,{})
+		elseif key == "x" then
+			--Closest to Player
+			----------
+			ClosestToPlayer = Props.Active[1]
+			ClosestDist = GridSizex
+			FoundClosest = false
+			for i = 1,#Props.Active do
+				if Props.Active[i] ~= PlayerMob and Props.Active[i].CanMove == true then
+					d = math.dist(Props.Active[i].Position.x,Props.Active[i].Position.y,PlayerMob.Position.x,PlayerMob.Position.y) 
+					if d < ClosestDist and d <= 0.7 then
+						ClosestDist = d
+						ClosestToPlayer = Props.Active[i]
+						ClosestFound = true
+					end
+				end
+				if i == #Props.Active then
+					if ClosestFound == false then
+						ClosestToPlayer = Props.Active[1]
+						ClosestDist = GridSizex
+					end
+					ClosestFound = false
+				end
+			end
+			ClosestToPlayer:DefaultAction()
 		end
 		if key == "z" and PlayerMob.State < 9 then
 			PlayerMob.Vars.Attacking = PlayerMob.Direction
@@ -183,6 +216,8 @@ function love.keyreleased( key )
 		PlayerMob.Moving = true
 		PlayerMob.State = 4 + dir
 	end
+	elseif Skip then
+		Skip = false
 	end
 end
 
@@ -416,5 +451,4 @@ end
 	love.graphics.setColor(255,255,255,255)]]
 	end
 end
-	
 	

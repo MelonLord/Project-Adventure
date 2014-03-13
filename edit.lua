@@ -48,7 +48,8 @@ function Edit.setMode(Sx,Sy)
 		if not love.filesystem.isFile("NewLevel.lua") then
 			local file = love.filesystem.newFile("NewLevel.lua")
 		end
-		data = "L = {}\nL.Props = {\n"
+		data = "L = {}\nL.Props = {\n Props:New(Props.Types.Blank,1,1),\n"
+		
 		for i = 1,#Props.Active do
 			data = data .. "Props:New(Props.Types." .. Props.Active[i].Name .. "," .. Props.Active[i].Position.x .. "," .. Props.Active[i].Position.y .. ")"
 			if i ~= #Props.Active then
