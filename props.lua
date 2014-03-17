@@ -40,7 +40,6 @@
 			
 			
 			if Props.Active[i].Moving == true and Props.Active[i].CanMove == true then
-				m = true
 				local dx = 0
 				local dy = 0
 				if Props.Active[i].Direction == 1 then
@@ -150,9 +149,20 @@
 				m = true
 			end
 			NewList = Level.Props
+			NewList[#NewList+1] = Props:New(Props.Types.Player,PlayerPort.x,PlayerPort.y)
+			NewList[#NewList].Moving = m
+			NewList[#NewList].Direction = PlayerMob.Direction
+			if m then
+				NewList[#NewList].State = PlayerMob.Direction + 4
+			else
+				NewList[#NewList].State = PlayerMob.Direction
+			end
 			Grid = Level.Grid
-			PlayerMob.Position = PlayerPort
-			PlayerMob.Moving = m
+			--Level = {Props = {}, Grid = {}}
+			PlayerPort = {x = 1,y = 1}
+			PlayerMob.Name = "REMOVE"
+			PlayerMob = NewList[#NewList]
+			Skip = false
 		end
 		Props.Active = NewList
 		
@@ -301,7 +311,7 @@
 		false,false,{},0
 	}
 	
-	Props.Types.Player = {"Player",20,BaseSprite,Quad,25,45,{0,0},0.5,0.5,6,0,
+	Props.Types.Player = {"Player",20,BaseSprite,Quad,25,45,{0,0},0.5,0.5,8,0,
 		function() return nil end,
 		function(dt, self) 
 			if self.Vars.Attacking > 0 then
@@ -431,7 +441,7 @@
 		function(prop) return nil end,
 		function(prop)
 			if prop == PlayerMob then
-				ChangeLevel(town1,10,12)
+				ChangeLevel(town1,15.5,12)
 			end
 		end,
 		true,false,{},32

@@ -37,15 +37,9 @@
 	--Level Change
 	-----------
 	function ChangeLevel(l,Px,Py) --Enum Enterfrom "y+","y-","x+","x-","n"
-		local NewProps = l.Props
-		for i = 2,#Props.Active do
-			if Props.Active[i] ~= PlayerMob then
-				Props.Active[i].Name = "REMOVE"
-			end
-		end
-		NewProps[#NewProps+1] = PlayerMob
+		Level = l
 		PlayerPort.x = Px
 		PlayerPort.y = Py
-		Level = l
+		
 		Skip = true
 	end

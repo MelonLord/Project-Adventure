@@ -3,6 +3,12 @@ town1.Name = "Town1"
 town1.GridSizex = 16
 town1.GridSizey = 16
 town1.Props = {
+Props:New(Props.Types.Blank,1,1),
+
+Props:New(Props.Types.Jamal,6,11),
+
+Props:New(Props.Types.Town1_Field1,16.4,12),
+
 Props:New(Props.Types.House1_0,3,3),
 Props:New(Props.Types.House1_3,2,3),
 Props:New(Props.Types.House1_4,1,3),
@@ -66,7 +72,7 @@ town1.Grid = {
 {{1,4,1,false},{1,3,1,false},{1,3,1,false},{1,4,6,false},{1,4,1,false},{1,4,1,false},{1,4,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false}},
 {{1,4,1,false},{1,3,1,false},{1,3,1,false},{1,4,6,false},{1,4,1,false},{1,4,1,false},{1,4,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false}},
 {{1,3,1,false},{1,3,1,false},{1,3,1,false},{1,3,1,false},{1,3,8,false},{1,2,8,false},{1,1,8,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false}},
-{{1,3,1,false},{1,3,1,false},{1,3,1,false},{1,3,1,false},{1,3,8,false},{1,2,8,false},{1,1,8,false},{1,0,1,false},{1,1,8,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false}},
+{{1,3,1,false},{1,3,1,false},{1,3,1,false},{1,3,1,false},{1,3,8,false},{1,2,8,false},{1,1,8,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false}},
 {{1,3,1,false},{1,3,1,false},{1,3,1,false},{1,3,1,false},{1,3,8,false},{1,2,8,false},{1,1,8,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false}},
 {{1,3,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,1,10,false},{1,1,9,false},{1,1,9,false},{1,1,9,false}},
 {{1,2,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,1,6,false},{1,1,1,false},{1,1,1,false},{1,1,1,false}},

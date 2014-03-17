@@ -67,6 +67,7 @@ function love.load()
 	Props.Active[#Props.Active+1] = Props:New(Props.Types.Player,10,8)
 	Props.Active[#Props.Active].Facing = 3
 	Props.Active[#Props.Active].State = 3
+	Props.Active[#Props.Active].AnimSpeed = 0.5
 	PlayerID = Props.Active[#Props.Active].ID
 	PlayerMob = Props.Active[#Props.Active]
 	PlayerMob.Vars.Attacking = 0
@@ -141,7 +142,7 @@ function love.keypressed( key, isrepeat )
 			PlayerMob.Vars.Attacking = PlayerMob.Direction
 			PlayerMob.State = 8 + PlayerMob.Direction
 			PlayerMob.Width = 50
-			PlayerMob.PreviousState = {PlayerMob.Direction,true,1}
+			PlayerMob.PreviousState = {PlayerMob.Direction,true,PlayerMob.AnimSpeed}
 			PlayerMob.Moving = false
 			PlayerMob.AnimLoop = false
 			PlayerMob.AnimSpeed = 5
@@ -216,8 +217,6 @@ function love.keyreleased( key )
 		PlayerMob.Moving = true
 		PlayerMob.State = 4 + dir
 	end
-	elseif Skip then
-		Skip = false
 	end
 end
 
@@ -228,7 +227,8 @@ function love.mousepressed(x,y,Button)
 end
 
 function love.update(dt)
-	
+	dt = math.min(dt, 1/60)
+
 	if EditMode then
 		Edit.update(dt)
 	elseif SceneMode then
@@ -446,6 +446,7 @@ end
     end
 	
 	love.graphics.print(love.timer.getFPS(),0,0)
+	love.graphics.print(PlayerMob.Spd,20,0)
 	--[[love.graphics.setColor(0,0,0,220)
 	love.graphics.rectangle("fill",(love.window.getWidth()-600)/2,love.window.getHeight()-20-100,600,100)
 	love.graphics.setColor(255,255,255,255)]]
