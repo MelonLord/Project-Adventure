@@ -63,6 +63,7 @@ Props:New(Props.Types.Trees1,2,15),Props:New(Props.Types.Trees1,2,16),
 Props:New(Props.Types.Trees1,2,8),Props:New(Props.Types.Trees1,3,8),Props:New(Props.Types.Trees1,4,8)
 
 }
+
 town1.Grid = {
 {{1,4,1,false},{1,4,1,false},{1,4,1,false},{1,4,1,false},{1,4,1,false},{1,4,1,false},{1,4,1,false},{1,3,1,false},{1,2,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false}},
 {{1,4,1,false},{1,4,1,false},{1,4,1,false},{1,4,1,false},{1,4,1,false},{1,4,1,false},{1,4,1,false},{1,2,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false}},
@@ -82,5 +83,4 @@ town1.Grid = {
 {{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,0,1,false},{1,1,6,false},{1,1,1,false},{1,1,1,false},{1,1,1,false}}
 }
 
-Levels[#Levels+1] = town1
 

@@ -1,12 +1,4 @@
-require "props"
-require "terrain"
-require "gui"
-require "edit"
-require "scenes"
-
-require "levels/town1"
-require "levels/field1"
-
+require "require"
 
 function love.load()
 	Load = 0
@@ -14,7 +6,7 @@ function love.load()
 	W = 1200
 	H = 700
 	
-	TimeOfDay = 8
+	TimeOfDay = 10
 	Skip = false
 	
 	Level = {Props = {}, Grid = {}}
@@ -27,6 +19,7 @@ function love.load()
 	function math.dist(x,y,z,w) return ((z-x)^ 2+(w-y)^ 2)^ 0.5 end
 	SFont = love.graphics.newFont("bin/Sb.ttf",16)
 	love.graphics.setFont(SFont)
+	
 	--Camera
 	----------
 	Camera = {}
@@ -110,9 +103,7 @@ function love.keypressed( key, isrepeat )
 		elseif key == "e" then
 			Edit.setMode(16,16)
 		elseif key == "q" then
-			local t = {}
-			t[1] = {"t",{{"bob",1,{},"Gummi bears wafer croissant gummies souffle jelly-o. Lollipop fruitcake apple pie ice cream candy topping chupa chups gingerbread. Lollipop gummi bears sweet sesame snaps apple pie ice cream chocolate bar. Gingerbread carrot cake caramels liquorice. Cupcake cheesecake cotton candy. Muffin jujubes sugar plum applicake gummies. "}}}
-			Scene.setMode(t,{})
+			Props:Damage(PlayerMob,PlayerMob,1)
 		elseif key == "x" then
 			--Closest to Player
 			----------
@@ -246,7 +237,7 @@ function love.update(dt)
 	--Camera
 	----------
 	Camera.x = math.floor(GridCenter[1] - (love.window.getWidth()/2) + (BlockWidth/2))--math.floor(PlayerMob.Sx - (love.window.getWidth()/2))
-	Camera.y = math.floor(GridCenter[2] - (love.window.getHeight()/2) - (BlockHeight))--math.floor(PlayerMob.Sy - (love.window.getHeight()/2))
+	Camera.y = math.floor(GridCenter[2] - (love.window.getHeight()/2) - (BlockHeight)) - 14 --math.floor(PlayerMob.Sy - (love.window.getHeight()/2))
 	
 	
 	--Elements
@@ -261,7 +252,7 @@ function love.update(dt)
 	else
 		Load = Load + dt
 		if Load > 3 then
-			Loaded = true
+			Loaded = true	
 		end
 	end
 end
@@ -392,7 +383,7 @@ table.sort(Chunks,function(a,b) return
 	(GridCenter[2] + ((a[2]+a[1]) * (BlockDepth/2)) - (BlockDepth * (GridSizey/2)) - (BlockHeight/3*Grid[a[1]][a[2]][2]))<(GridCenter[2] + ((b[2]+b[1]) * (BlockDepth/2)) - (BlockDepth * (GridSizey/2)) - (BlockHeight/3*Grid[b[1]][b[2]][2])) 
 end)
 for i = 1,#Chunks do
-	table.sort(Chunks[i][3],function(a,b) return a.Sy<b.Sy end)
+	table.sort(Chunks[i][3],function(a,b) return (a.Sy+a.Height)<(b.Sy+b.Height) end)
 end
 --TileDraw
 ----------
@@ -424,7 +415,7 @@ end
 --Lighting
 ----------
 	love.graphics.setInvertedStencil(Lights)
-	love.graphics.setColor(30,10,0,100+math.cos(((math.pi*2)/24) * TimeOfDay)*100)
+	love.graphics.setColor(10,10,30,100+math.cos(((math.pi*2)/24) * TimeOfDay)*100)
 	love.graphics.rectangle("fill",0,0,W,H)
 	love.graphics.setStencil()
 	love.graphics.setColor(255,255,255,255)
@@ -435,7 +426,7 @@ end
 	if #Gui.Active > 0 then
 		for i = 1,#Gui.Active do
         	love.graphics.push()
-        	if Gui.Active[i].Sx > 50 then
+        	if Gui.Active[i].Type == 2 then
         		love.graphics.printf(Gui.Active[i].Sprite,Gui.Active[i].x,Gui.Active[i].y,Gui.Active[i].Sx)
         	else
 				love.graphics.scale(Gui.Active[i].Sx,Gui.Active[i].Sy)
@@ -448,7 +439,7 @@ end
 	love.graphics.print(love.timer.getFPS(),0,0)
 	love.graphics.print(PlayerMob.Spd,20,0)
 	--[[love.graphics.setColor(0,0,0,220)
-	love.graphics.rectangle("fill",(love.window.getWidth()-600)/2,love.window.getHeight()-20-100,600,100)
+	love.graphics.rectangle("fill",0,0,love.window.getWidth(),130)
 	love.graphics.setColor(255,255,255,255)]]
 	end
 end

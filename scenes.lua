@@ -31,8 +31,8 @@ function Scene.update(dt)
 					if Scene.Timer == dt then
 						Scene.Guis[1] = Gui:New("TextBox",1,Scene.Textbox,(love.window.getWidth()-800)/2,love.window.getHeight()-40-100,1,1,Scene.Textbox:getWidth(),Scene.Textbox:getHeight())
 						Gui.Active[#Gui.Active+1] = Scene.Guis[1]
-						Scene.Guis[2] = Gui:New("Text",1,Scene.Print,(love.window.getWidth()-760)/2,love.window.getHeight()-10-100,760)
-						Scene.Guis[3] = Gui:New("Name",1,Scene.CurrentScene[Scene.Step][2][Scene.Frame][1],(love.window.getWidth()-780)/2,love.window.getHeight()-35-100,600)
+						Scene.Guis[2] = Gui:New("Text",2,Scene.Print,(love.window.getWidth()-760)/2,love.window.getHeight()-10-100,760)
+						Scene.Guis[3] = Gui:New("Name",2,Scene.CurrentScene[Scene.Step][2][Scene.Frame][1],(love.window.getWidth()-780)/2,love.window.getHeight()-35-100,600)
 						Scene.Guis[4] = Gui:New("Arrow",1,Scene.Arrow,(love.window.getWidth()+800)/2,love.window.getHeight()-40,1,1,Scene.Arrow:getWidth(),Scene.Arrow:getHeight(),0)
 						Gui.Active[#Gui.Active+1] = Scene.Guis[2]
 						Gui.Active[#Gui.Active+1] = Scene.Guis[3]

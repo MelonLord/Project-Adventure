@@ -4,6 +4,8 @@ field1.Props = {
  
  Props:New(Props.Types.Field1_Town1,0.6,12),
  
+ Props:New(Props.Types.Spitter,2,2),
+ 
 Props:New(Props.Types.Trees1,1,1),Props:New(Props.Types.Trees1,1,2),Props:New(Props.Types.Trees1,1,3),Props:New(Props.Types.Trees1,1,4),
 Props:New(Props.Types.Trees1,1,5),Props:New(Props.Types.Trees1,1,6),Props:New(Props.Types.Trees1,1,7),Props:New(Props.Types.Trees1,1,8),
 Props:New(Props.Types.Trees1,1,9),Props:New(Props.Types.Trees1,1,10),Props:New(Props.Types.Trees1,1,11),--Props:New(Props.Types.Trees1,1,12),
