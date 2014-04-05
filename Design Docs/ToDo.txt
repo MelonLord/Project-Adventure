@@ -1,8 +1,5 @@
-- Fix PreviousAnim, Rename to PrevState
-	-Add PrevState change in movment controls
 - Create a system for seeing the player behind objects
 	-look for player object in each render, if behind render outline
 - Make controls customizable
 - Add Menu Screen
-- Create combat system
 - Create Item system

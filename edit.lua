@@ -170,7 +170,7 @@ function Edit.update(dt)
 			Fx = math.round(Fx)
 			Fy = math.round(Fy)
 		end
-		if Fx > 0.51 and Fx + Props.Types[Edit.PropList[Edit.PropNum]][7][1] <= GridSizex+0.5 and Fy > 0.51 and Fy + Props.Types[Edit.PropList[Edit.PropNum]][7][2] <= GridSizey+0.5 then
+		if Fx > 0.51 and Fx + Props.Types[Edit.PropList[Edit.PropType]][7][1] <= GridSizex+0.5 and Fy > 0.51 and Fy + Props.Types[Edit.PropList[Edit.PropType]][7][2] <= GridSizey+0.5 then
 			Props.Active[Edit.PropNum] = Props:New(Props.Types[Edit.PropList[Edit.PropType]],Fx,Fy)
 		else
 			Props.Active[Edit.PropNum] = Props:New(Props.Types.Blank,1,1)

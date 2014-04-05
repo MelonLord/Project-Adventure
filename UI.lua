@@ -31,6 +31,12 @@ UI.Hearts[12] = Gui:New("Heart12",1,UI.HIco[6],460,30,1,1)
 UI.Items = {}
 UI.Items["ItemBox1"] = Gui:New("ItemBox1",1,UI.ItemBox,920,44,0.5,0.5)
 UI.Items["ItemBox2"] = Gui:New("ItemBox2",1,UI.ItemBox,1080,44,0.5,0.5)
+UI.Items[1] = Gui:New("Item1",1,Items.All[Items.Active[1]].Sprite,460,22,1,1,1,1,255,function(dt,self)
+	self.Sprite = Items.All[Items.Active[1]].Sprite
+end)
+UI.Items[2] = Gui:New("Item2",1,Items.All[Items.Active[2]].Sprite,460,22,1,1,1,1,255,function(dt,self)
+	self.Sprite = Items.All[Items.Active[2]].Sprite
+end)
 
 
 Gui.Active[#Gui.Active+1] = UI.Hearts[1]
@@ -48,3 +54,5 @@ Gui.Active[#Gui.Active+1] = UI.Hearts[12]
 
 Gui.Active[#Gui.Active+1] = UI.Items["ItemBox1"]
 Gui.Active[#Gui.Active+1] = UI.Items["ItemBox2"]
+Gui.Active[#Gui.Active+1] = UI.Items[1]
+Gui.Active[#Gui.Active+1] = UI.Items[2]

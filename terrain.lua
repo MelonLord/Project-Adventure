@@ -18,6 +18,22 @@
 	love.graphics.newImage("bin/Terrain/Grass/grass10.png"),love.graphics.newImage("bin/Terrain/Grass/grass11.png"),love.graphics.newImage("bin/Terrain/Grass/grass12.png"),
 	love.graphics.newImage("bin/Terrain/Grass/grass13.png"),love.graphics.newImage("bin/Terrain/Grass/grass14.png"),love.graphics.newImage("bin/Terrain/Grass/grass15.png"),
 	love.graphics.newImage("bin/Terrain/Grass/grass16.png")
+		},
+		{
+	love.graphics.newImage(love.image.newImageData(64,48)),love.graphics.newImage(love.image.newImageData(64,48)),love.graphics.newImage(love.image.newImageData(64,48)),
+	love.graphics.newImage(love.image.newImageData(64,48)),love.graphics.newImage(love.image.newImageData(64,48)),love.graphics.newImage(love.image.newImageData(64,48)),
+	love.graphics.newImage(love.image.newImageData(64,48)),love.graphics.newImage(love.image.newImageData(64,48)),love.graphics.newImage(love.image.newImageData(64,48)),
+	love.graphics.newImage(love.image.newImageData(64,48)),love.graphics.newImage(love.image.newImageData(64,48)),love.graphics.newImage(love.image.newImageData(64,48)),
+	love.graphics.newImage(love.image.newImageData(64,48)),love.graphics.newImage(love.image.newImageData(64,48)),love.graphics.newImage(love.image.newImageData(64,48)),
+	love.graphics.newImage(love.image.newImageData(64,48))
+		},
+		{
+	love.graphics.newImage("bin/Terrain/Hardwood/Tile1.png"),love.graphics.newImage("bin/Terrain/Grass/grass2.png"),love.graphics.newImage("bin/Terrain/Grass/grass3.png"),
+	love.graphics.newImage("bin/Terrain/Grass/grass4.png"),love.graphics.newImage("bin/Terrain/Grass/grass5.png"),love.graphics.newImage("bin/Terrain/Grass/grass6.png"),
+	love.graphics.newImage("bin/Terrain/Grass/grass7.png"),love.graphics.newImage("bin/Terrain/Grass/grass8.png"),love.graphics.newImage("bin/Terrain/Grass/grass9.png"),
+	love.graphics.newImage("bin/Terrain/Grass/grass10.png"),love.graphics.newImage("bin/Terrain/Grass/grass11.png"),love.graphics.newImage("bin/Terrain/Grass/grass12.png"),
+	love.graphics.newImage("bin/Terrain/Grass/grass13.png"),love.graphics.newImage("bin/Terrain/Grass/grass14.png"),love.graphics.newImage("bin/Terrain/Grass/grass15.png"),
+	love.graphics.newImage("bin/Terrain/Grass/grass16.png")
 		}
 	}
 	

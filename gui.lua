@@ -11,7 +11,7 @@
       		if Gui.Active[i].Name ~= "REMOVE" then
           	  NewList[#NewList + 1] = Gui.Active[i]
         	end
-        	Gui.Active[i].Update()
+        	Gui.Active[i].Update(dt,Gui.Active[i])
     	end
     	Gui.Active = NewList
  	end
@@ -25,12 +25,13 @@
     	Prop.y = y
     	Prop.Sx = sx or 1
     	Prop.Sy = sy or 1
-    	Prop.ScaleX = w or 1
-    	Prop.ScaleY = h or 1
+    	
+    	Prop.ScaleX = w
+    	Prop.ScaleY = h
 
     	Prop.Alpha = Alpha or 255
     	Prop.OnClick = OnClick or (function() return nil end)
-    	Prop.Update = Update or (function() return nil end)
+    	Prop.Update = Update or (function(dt,self) return nil end)
     	Prop.Var = Extra or {}
    		return Prop
 	end

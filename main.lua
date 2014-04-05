@@ -10,6 +10,7 @@ function love.load()
 	Skip = false
 	
 	Level = {Props = {}, Grid = {}}
+	BackgroundColor = {0,200,255}
 	PlayerPort = {x = 1,y = 1}
 	
 	--Base
@@ -130,13 +131,7 @@ function love.keypressed( key, isrepeat )
 			ClosestToPlayer:DefaultAction()
 		end
 		if key == "z" and PlayerMob.State < 9 then
-			PlayerMob.Vars.Attacking = PlayerMob.Direction
-			PlayerMob.State = 8 + PlayerMob.Direction
-			PlayerMob.Width = 50
-			PlayerMob.PreviousState = {PlayerMob.Direction,true,PlayerMob.AnimSpeed}
-			PlayerMob.Moving = false
-			PlayerMob.AnimLoop = false
-			PlayerMob.AnimSpeed = 5
+			Items.All[Items.Active[1]]:UseFunction(Items.All[Items.Active[1]])
 		elseif move and PlayerMob.Vars.Attacking < 1 then
 			PlayerMob.Direction = dir
 			PlayerMob.Moving = true
@@ -267,7 +262,7 @@ function love.draw()
 	
 	----------
 	Camera:set()
-	love.graphics.setBackgroundColor(0,200,255)
+	love.graphics.setBackgroundColor(BackgroundColor[1],BackgroundColor[2],BackgroundColor[3])
 	
 			  
 	--Props
@@ -354,8 +349,12 @@ for i = 1,#Props.Active do
 	Py = Py + Props.Active[i].YOffset
 	Props.Active[i].LastState = Props.Active[i].State
 	local Sx = GridCenter[1] + ((Px-Py) * (BlockWidth/2) - ((Props.Active[i].Width - BlockWidth)/2))
-	local Sy = GridCenter[2] + ((Py+Px) * (BlockDepth/2)) - (BlockDepth * (GridSizey/2)) - (BlockHeight/3*(Grid[math.round(Px)][math.round(Py)][2])) - ((Props.Active[i].Height - BlockHeight/3)) + (Slant*(BlockHeight/3))
-						
+	local Sy = 0
+	if (math.round(Px) > 16 or math.round(Px) < 1 or math.round(Py) > 16 or math.round(Py) < 1) then
+		break
+	else
+		Sy = GridCenter[2] + ((Py+Px) * (BlockDepth/2)) - (BlockDepth * (GridSizey/2)) - (BlockHeight/3*(Grid[math.round(Px)][math.round(Py)][2])) - ((Props.Active[i].Height - BlockHeight/3)) + (Slant*(BlockHeight/3))
+	end					
 	--if Props.Active[i].Moving == false then
 		Props.Active[i].Sx = math.floor(Sx)
 		Props.Active[i].Sy = math.floor(Sy)
@@ -436,8 +435,8 @@ end
         end
     end
 	
-	love.graphics.print(love.timer.getFPS(),0,0)
-	love.graphics.print(PlayerMob.Spd,20,0)
+	love.graphics.print(Edit.PropNum,0,0)
+	--love.graphics.print(PlayerMob.Spd,20,0)
 	--[[love.graphics.setColor(0,0,0,220)
 	love.graphics.rectangle("fill",0,0,love.window.getWidth(),130)
 	love.graphics.setColor(255,255,255,255)]]

@@ -166,6 +166,7 @@
 				NewList[#NewList].State = PlayerMob.Direction
 			end
 			Grid = Level.Grid
+			BackgroundColor = Level.Background
 			--Level = {Props = {}, Grid = {}}
 			PlayerPort = {x = 1,y = 1}
 			PlayerMob.Name = "REMOVE"

@@ -64,25 +64,8 @@
 				elseif self.Vars.Attacking == 4 then
 					dx = -1
 				end
-				for i = 1,#Props.Active do
-					if Props.Active[i] ~= self then
-						if Props.Active[i].Position.x+((Props.Active[i].TakesUpx/2)/4) > self.Position.x - 0.35 + 0.3*dx and Props.Active[i].Position.x+((Props.Active[i].TakesUpx/2)/4) < self.Position.x + 0.35 + 0.3*dx then
-							if Props.Active[i].Position.y+((Props.Active[i].TakesUpy/2)/4) > self.Position.y - 0.35 + 0.3*dy and Props.Active[i].Position.y+((Props.Active[i].TakesUpy/2)/4) < self.Position.y + 0.35 + 0.3*dy then
-								local Atd = false
-								for c = 1,#self.Vars.Attacked do
-									if self.Vars.Attacked[c] == i then
-										Atd = true
-									end
-								end
-								if not Atd then
-									Props:Damage(Props.Active[i],self,1)
-									self.Vars.Attacked[#self.Vars.Attacked+1] = i
-								end
-							end
-						end
-					end
-				end
-				if self.State < 9 then
+				Items.All[Items.Active[self.Vars.ItemUsing]]:Update(Items.All[Items.Active[self.Vars.ItemUsing]],dt,dx,dy)
+				if self.State < 5 then
 					if love.keyboard.isDown("w") then
 						self.Moving = true
 						self.Direction = 4
@@ -147,5 +130,5 @@
 				self.State = 7
 			end
 		end,
-		true,true,{Attackng = 0,Attacked = {}},0
+		true,true,{Attackng = 0,Attacked = {},ItemUsing = 1},0
 	}

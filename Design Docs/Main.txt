@@ -36,7 +36,7 @@ Overworld region: Foresty area
 
 Item: Fan
 
-Boss: Unknown
+Boss: Capybara
 
 
 
@@ -68,7 +68,7 @@ Enemies: Aliens
 
 Overworld Region: Icy, North or on a mountain
 
-Item: Time Rod
+Item: Unknown
 
 Boss: Unknown
 

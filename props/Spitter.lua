@@ -58,8 +58,8 @@
 		function() return nil end,
 		function(dt,self)
 			self.Vars.AnimTimer = self.Vars.AnimTimer + dt 
-			if self.Vars.AnimTimer > 5 then
-				if self.Vars.AnimTimer > 5.7 then
+			if self.Vars.AnimTimer > 3.5 then
+				if self.Vars.AnimTimer > 4.2 then
 					self.Vars.AnimTimer = 0
 					self.Vars.Anim = false
 					Props.Inactive[#Props.Inactive+1] = Props:New(Props.Types.Seed,self.Position.x,self.Position.y)
@@ -72,7 +72,7 @@
 					end
 					Props.Inactive[#Props.Inactive].Moving = true
 				end
-				if self.Vars.Anim == false then
+				if self.Vars.Anim == false and self.Vars.AnimTimer > 3.5 then
 					self.PreviousState = {self.Direction,true,1}
 					self.State = self.Direction + 4
 					self.AnimLoop = false
@@ -95,13 +95,9 @@
 		true,true,{AnimTimer = 0,Anim = false},0
 	}
 	
-	Props.Types.Seed = {"Seed",20,love.graphics.newImage("bin/Sprites/Objects/Seed.png"),{{love.graphics.newQuad(0,0,6,6,6,6)}},6,46,{0,0},0.2,0.2,10,0,
+	Props.Types.Seed = {"Seed",20,love.graphics.newImage("bin/Sprites/Objects/Seed.png"),{{love.graphics.newQuad(0,0,6,6,6,6)}},6,46,{0,0},0.5,0.5,15,0,
 		function() return nil end,
-		function(dt,self)
-			if self.Moving == false then
-				self.Name = "REMOVE"
-			end
-		end,
+		function(dt,self) return nil end,
 		function() return nil end,
 		function(id,self)
 			for i = 1,#Props.Active do 
@@ -116,6 +112,7 @@
 			if prop == PlayerMob then
 				Props:Damage(prop,s,1)
 			end
+			s.Name = "REMOVE"
 		end,
-		true,true,{},24
+		true,true,{},20
 	}

@@ -1,4 +1,7 @@
 town1 = {}
+
+town1.Background = {0,200,255}
+
 town1.Name = "Town1"
 town1.GridSizex = 16
 town1.GridSizey = 16
@@ -8,6 +11,7 @@ Props:New(Props.Types.Blank,1,1),
 Props:New(Props.Types.Jamal,6,11),
 
 Props:New(Props.Types.Town1_Field1,16.4,12),
+Props:New(Props.Types.Town1_House1,3,4.5),
 
 Props:New(Props.Types.House1_0,3,3),
 Props:New(Props.Types.House1_3,2,3),
